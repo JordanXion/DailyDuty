@@ -1,3 +1,6 @@
+This is a simple fork of DailyDuty with support for hiding the titlebar/buttons of to-do list overlay panels for a cleaner look, as the main plugin author refused to allow this in the main plugin.
+<img width="773" height="513" alt="image" src="https://github.com/user-attachments/assets/6ed26f18-40b7-4856-8d97-9198bad412b4" />
+
 # DailyDuty
 [![Download count](https://img.shields.io/endpoint?url=https://qzysathwfhebdai6xgauhz4q7m0mzmrf.lambda-url.us-east-1.on.aws/DailyDuty)](https://github.com/MidoriKami/DailyDuty)
 

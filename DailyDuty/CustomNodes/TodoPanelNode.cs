@@ -117,7 +117,9 @@ public unsafe class TodoPanelNode : OverlayNode {
         horizontalLine.Position = new Vector2(8.0f, titleText.Bounds.Bottom + 2.0f);
 
         warningList.Width = Width - 32.0f;
-        warningList.Position = new Vector2(16.0f, horizontalLine.Bounds.Bottom + 4.0f);
+        warningList.Position = Config?.HideTitleBar == true
+            ? new Vector2(16.0f, 8.0f)
+            : new Vector2(16.0f, horizontalLine.Bounds.Bottom + 4.0f);
         warningList.RecalculateLayout();
     }
 
@@ -162,7 +164,12 @@ public unsafe class TodoPanelNode : OverlayNode {
         frameFront.IsVisible = Config is { ShowFrame: true, IsCollapsed: false };
         frame.IsVisible = Config is { ShowFrame: true, IsCollapsed: false };
         backgroundImage.IsVisible = Config is { ShowFrame: true, IsCollapsed: false };
-        
+
+        titleText.IsVisible = !Config.HideTitleBar;
+        horizontalLine.IsVisible = !Config.HideTitleBar;
+        configButton.IsVisible = !Config.HideTitleBar;
+        collapseButton.IsVisible = !Config.HideTitleBar;
+
         warningList.IsVisible = !Config.IsCollapsed;
 
         var warningModules = Config.Modules.Select(moduleName => System.ModuleManager.GetModule(moduleName))
@@ -174,16 +181,17 @@ public unsafe class TodoPanelNode : OverlayNode {
         var shouldHideInDuties = ModuleTodoOverlayConfig.HideInDuties && Services.Condition.IsBoundByDuty;
         var shouldHideInQuestEvent = ModuleTodoOverlayConfig.HideDuringQuests && Services.Condition.IsInCutsceneOrQuestEvent;
         var shouldHideNoWarnings = !(warningModules.Count is not 0 || Config.Modules.Count is 0);
-        
+
         IsVisible = !shouldHideNoWarnings && !shouldHideInQuestEvent && !shouldHideInDuties;
 
         if (warningList.SyncWithListData(warningModules, node => node.Module, BuildTodoEntry) || Math.Abs(warningList.ItemSpacing - Config.ItemSpacing) > 0.1f) {
             warningList.ItemSpacing = Config.ItemSpacing;
             warningList.Width = MathF.Max(50.0f, warningList.Nodes.Sum(node => node.IsVisible ? node.Width : 0.0f));
             warningList.RecalculateLayout();
-
-            Height = warningList.Bounds.Bottom + 18.0f;
         }
+
+        var listStartY = Config.HideTitleBar ? 8.0f : horizontalLine.Bounds.Bottom + 4.0f;
+        Height = listStartY + warningList.Height + (Config.HideTitleBar ? 8.0f : 18.0f);
 
         foreach (var node in warningList.GetNodes<TodoListEntryNode>()) {
             node.Update();

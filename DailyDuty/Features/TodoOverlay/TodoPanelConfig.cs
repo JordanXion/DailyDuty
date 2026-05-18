@@ -20,6 +20,7 @@ public class TodoPanelConfig {
     public float Alpha = 1.0f;
     public float ButtonAlpha = 1.0f;
     public bool AttachToQuestList = false;
+    public bool HideTitleBar = false;
 
     [JsonIgnore] public bool EnableMoving;
 }

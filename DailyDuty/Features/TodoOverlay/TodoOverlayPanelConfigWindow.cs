@@ -161,6 +161,16 @@ public class TodoOverlayPanelConfigWindow(TodoOverlayConfig moduleTodoOverlayCon
                         moduleTodoOverlayConfig.MarkDirty();
                     },
                 },
+                new CheckboxNode {
+                    String = "Hide Title Bar",
+                    TextTooltip = "Hide the title bar of the panel and its buttons.",
+                    Height = 28.0f,
+                    IsChecked = config.HideTitleBar,
+                    OnClick = newValue => {
+                        config.HideTitleBar = newValue;
+                        moduleTodoOverlayConfig.MarkDirty();
+                    },
+                },
                 new ColorEditNode {
                     Height = 28.0f,
                     String = "Text Color",
